@@ -228,6 +228,24 @@ class Functified {
         return false;
     }
 
+    find(callback) {
+        for (let [i, value] of this.enumerate()) {
+            if (callback(value, i)) {
+                return value;
+            }
+        }
+        return undefined;
+    }
+
+    findIndex(callback) {
+        for (let [i, value] of this.enumerate()) {
+            if (callback(value, i)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     entries() {
         if (this.iterable.entries) {
             return new Functified(this.iterable.entries());
