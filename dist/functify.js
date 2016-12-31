@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }
-
-function _defineProperty(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -27,10 +27,10 @@ var Functified = (function () {
 
     _createClass(Functified, [{
         key: Symbol.iterator,
-        value: regeneratorRuntime.mark(function callee$1$0() {
+        value: regeneratorRuntime.mark(function value() {
             var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, value;
 
-            return regeneratorRuntime.wrap(function callee$1$0$(context$2$0) {
+            return regeneratorRuntime.wrap(function value$(context$2$0) {
                 while (1) switch (context$2$0.prev = context$2$0.next) {
                     case 0:
                         _iteratorNormalCompletion = true;
@@ -92,19 +92,19 @@ var Functified = (function () {
                     case "end":
                         return context$2$0.stop();
                 }
-            }, callee$1$0, this, [[3, 14, 18, 26], [19,, 21, 25]]);
+            }, value, this, [[3, 14, 18, 26], [19,, 21, 25]]);
         })
-    }, {
-        key: "custom",
 
         // fn(iterable) -> generator function
+    }, {
+        key: "custom",
         value: function custom(fn) {
             return Functified.fromGenerator(fn(this.iterable));
         }
-    }, {
-        key: "distinct",
 
         // alias dedupe, unique
+    }, {
+        key: "distinct",
         value: function distinct() {
             var iterable = this.iterable;
             var memory = new Set();
@@ -375,7 +375,7 @@ var Functified = (function () {
     }, {
         key: "repeat",
         value: function repeat() {
-            var n = arguments[0] === undefined ? 1 : arguments[0];
+            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
 
             var iterable = this.iterable;
             return Functified.fromGenerator(regeneratorRuntime.mark(function callee$2$0() {
@@ -458,12 +458,12 @@ var Functified = (function () {
                 }, callee$2$0, this, [[5, 16, 20, 28], [21,, 23, 27]]);
             }));
         }
-    }, {
-        key: "loop",
 
         // alias for repeat
+    }, {
+        key: "loop",
         value: function loop() {
-            var n = arguments[0] === undefined ? 1 : arguments[0];
+            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
 
             console.warn("deprecating loop(n), use repeat(n) instead");
             return this.repeat(n);
@@ -825,7 +825,7 @@ var Functified = (function () {
     }, {
         key: "enumerate",
         value: function enumerate() {
-            var start = arguments[0] === undefined ? 0 : arguments[0];
+            var start = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
             var iterable = this.iterable;
             return Functified.fromGenerator(regeneratorRuntime.mark(function callee$2$0() {
@@ -902,10 +902,10 @@ var Functified = (function () {
         value: function zip() {
             return Functified.zip(this.iterable);
         }
-    }, {
-        key: "every",
 
         // reducing functions
+    }, {
+        key: "every",
         value: function every(callback) {
             var _iteratorNormalCompletion10 = true;
             var _didIteratorError10 = false;
@@ -995,6 +995,76 @@ var Functified = (function () {
             return false;
         }
     }, {
+        key: "find",
+        value: function find(callback) {
+            var _iteratorNormalCompletion12 = true;
+            var _didIteratorError12 = false;
+            var _iteratorError12 = undefined;
+
+            try {
+                for (var _iterator12 = this.enumerate()[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
+                    var _step12$value = _slicedToArray(_step12.value, 2);
+
+                    var i = _step12$value[0];
+                    var value = _step12$value[1];
+
+                    if (callback(value, i)) {
+                        return value;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError12 = true;
+                _iteratorError12 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion12 && _iterator12["return"]) {
+                        _iterator12["return"]();
+                    }
+                } finally {
+                    if (_didIteratorError12) {
+                        throw _iteratorError12;
+                    }
+                }
+            }
+
+            return undefined;
+        }
+    }, {
+        key: "findIndex",
+        value: function findIndex(callback) {
+            var _iteratorNormalCompletion13 = true;
+            var _didIteratorError13 = false;
+            var _iteratorError13 = undefined;
+
+            try {
+                for (var _iterator13 = this.enumerate()[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
+                    var _step13$value = _slicedToArray(_step13.value, 2);
+
+                    var i = _step13$value[0];
+                    var value = _step13$value[1];
+
+                    if (callback(value, i)) {
+                        return i;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError13 = true;
+                _iteratorError13 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion13 && _iterator13["return"]) {
+                        _iterator13["return"]();
+                    }
+                } finally {
+                    if (_didIteratorError13) {
+                        throw _iteratorError13;
+                    }
+                }
+            }
+
+            return -1;
+        }
+    }, {
         key: "entries",
         value: function entries() {
             if (this.iterable.entries) {
@@ -1025,27 +1095,27 @@ var Functified = (function () {
         key: "toArray",
         value: function toArray() {
             var result = [];
-            var _iteratorNormalCompletion12 = true;
-            var _didIteratorError12 = false;
-            var _iteratorError12 = undefined;
+            var _iteratorNormalCompletion14 = true;
+            var _didIteratorError14 = false;
+            var _iteratorError14 = undefined;
 
             try {
-                for (var _iterator12 = this.iterable[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
-                    var value = _step12.value;
+                for (var _iterator14 = this.iterable[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
+                    var value = _step14.value;
 
                     result.push(value);
                 }
             } catch (err) {
-                _didIteratorError12 = true;
-                _iteratorError12 = err;
+                _didIteratorError14 = true;
+                _iteratorError14 = err;
             } finally {
                 try {
-                    if (!_iteratorNormalCompletion12 && _iterator12["return"]) {
-                        _iterator12["return"]();
+                    if (!_iteratorNormalCompletion14 && _iterator14["return"]) {
+                        _iterator14["return"]();
                     }
                 } finally {
-                    if (_didIteratorError12) {
-                        throw _iteratorError12;
+                    if (_didIteratorError14) {
+                        throw _iteratorError14;
                     }
                 }
             }
@@ -1056,29 +1126,29 @@ var Functified = (function () {
         key: "toObject",
         value: function toObject() {
             var result = {};
-            var _iteratorNormalCompletion13 = true;
-            var _didIteratorError13 = false;
-            var _iteratorError13 = undefined;
+            var _iteratorNormalCompletion15 = true;
+            var _didIteratorError15 = false;
+            var _iteratorError15 = undefined;
 
             try {
-                for (var _iterator13 = this.iterable[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-                    var value = _step13.value;
+                for (var _iterator15 = this.iterable[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
+                    var value = _step15.value;
 
                     if (Array.isArray(value)) {
                         result[value[0]] = value[1];
                     }
                 }
             } catch (err) {
-                _didIteratorError13 = true;
-                _iteratorError13 = err;
+                _didIteratorError15 = true;
+                _iteratorError15 = err;
             } finally {
                 try {
-                    if (!_iteratorNormalCompletion13 && _iterator13["return"]) {
-                        _iterator13["return"]();
+                    if (!_iteratorNormalCompletion15 && _iterator15["return"]) {
+                        _iterator15["return"]();
                     }
                 } finally {
-                    if (_didIteratorError13) {
-                        throw _iteratorError13;
+                    if (_didIteratorError15) {
+                        throw _iteratorError15;
                     }
                 }
             }
@@ -1136,10 +1206,10 @@ var Functified = (function () {
             result += "]";
             return result;
         }
-    }], [{
-        key: "fromGenerator",
 
         // static methods
+    }], [{
+        key: "fromGenerator",
         value: function fromGenerator(generator) {
             return functify(_defineProperty({}, Symbol.iterator, generator));
         }
@@ -1287,7 +1357,7 @@ var Functified = (function () {
     }, {
         key: "range",
         value: function range(start, stop) {
-            var step = arguments[2] === undefined ? 1 : arguments[2];
+            var step = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
 
             if (arguments.length === 1) {
                 stop = start;
@@ -1369,7 +1439,7 @@ var Functified = (function () {
                 iterables = iterables[0];
             }
             return Functified.fromGenerator(regeneratorRuntime.mark(function callee$2$0() {
-                var iterators, vector, _iteratorNormalCompletion14, _didIteratorError14, _iteratorError14, _iterator14, _step14, iterator, result;
+                var iterators, vector, _iteratorNormalCompletion16, _didIteratorError16, _iteratorError16, _iterator16, _step16, iterator, result;
 
                 return regeneratorRuntime.wrap(function callee$2$0$(context$3$0) {
                     while (1) switch (context$3$0.prev = context$3$0.next) {
@@ -1389,19 +1459,19 @@ var Functified = (function () {
                             }
 
                             vector = [];
-                            _iteratorNormalCompletion14 = true;
-                            _didIteratorError14 = false;
-                            _iteratorError14 = undefined;
+                            _iteratorNormalCompletion16 = true;
+                            _didIteratorError16 = false;
+                            _iteratorError16 = undefined;
                             context$3$0.prev = 6;
-                            _iterator14 = iterators[Symbol.iterator]();
+                            _iterator16 = iterators[Symbol.iterator]();
 
                         case 8:
-                            if (_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done) {
+                            if (_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done) {
                                 context$3$0.next = 19;
                                 break;
                             }
 
-                            iterator = _step14.value;
+                            iterator = _step16.value;
                             result = iterator.next();
 
                             if (!result.done) {
@@ -1415,7 +1485,7 @@ var Functified = (function () {
                             vector.push(result.value);
 
                         case 16:
-                            _iteratorNormalCompletion14 = true;
+                            _iteratorNormalCompletion16 = true;
                             context$3$0.next = 8;
                             break;
 
@@ -1426,26 +1496,26 @@ var Functified = (function () {
                         case 21:
                             context$3$0.prev = 21;
                             context$3$0.t0 = context$3$0["catch"](6);
-                            _didIteratorError14 = true;
-                            _iteratorError14 = context$3$0.t0;
+                            _didIteratorError16 = true;
+                            _iteratorError16 = context$3$0.t0;
 
                         case 25:
                             context$3$0.prev = 25;
                             context$3$0.prev = 26;
 
-                            if (!_iteratorNormalCompletion14 && _iterator14["return"]) {
-                                _iterator14["return"]();
+                            if (!_iteratorNormalCompletion16 && _iterator16["return"]) {
+                                _iterator16["return"]();
                             }
 
                         case 28:
                             context$3$0.prev = 28;
 
-                            if (!_didIteratorError14) {
+                            if (!_didIteratorError16) {
                                 context$3$0.next = 31;
                                 break;
                             }
 
-                            throw _iteratorError14;
+                            throw _iteratorError16;
 
                         case 31:
                             return context$3$0.finish(28);

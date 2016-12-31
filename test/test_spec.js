@@ -105,6 +105,16 @@ describe("functify", () => {
             assert.equal(result, false);
         });
 
+        it("should implement find()", () => {
+            assert.equal(numbers.find(num => num === 6), undefined);
+            assert.equal(numbers.find(num => num === 3), 3);
+        });
+
+        it("should implement findIndex()", () => {
+            assert.equal(numbers.findIndex(num => num === 6), -1);
+            assert.equal(numbers.findIndex(num => num === 3), 2);
+        });
+
         it("should take the first 2", () => {
             for (let num of numbers.take(2)) {
                 result.push(num);
