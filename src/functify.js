@@ -404,4 +404,4 @@ functify.fromGenerator = Functified.fromGenerator;
 functify.range = Functified.range;
 functify.zip = Functified.zip;
 
-export default functify;
+if(typeof module != 'undefined') module.exports = functify;
