@@ -2,7 +2,9 @@
   "name": "functify",
   "version": "0.4.0",
   "description": "Add functional methods like map, reduce, filter, etc. iterables (ES6 Iterators).",
-  "main": "dist/functify.js",
+  "main": "src/functify",
+  "module": "src/functify.mjs",
+  "jsnext:main": "src/functify.mjs",
   "directories": {
     "test": "test"
   },
